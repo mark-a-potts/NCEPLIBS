@@ -483,7 +483,7 @@ IF (UNIX AND ${CMAKE_SIZEOF_VOID_P} MATCHES "8")
   ADD_DEFINITIONS(-DLONGLONG_IS_LONG)
   # for easier debugging of cfortran.h
   IF (APPLE)
-    SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fmacro-backtrace-limit=0")
+    SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ftemplate-backtrace-limit=0")
   endif ()
 ENDIF()
 
