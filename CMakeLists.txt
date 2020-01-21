@@ -39,7 +39,6 @@ project(NCEPLIBS)
     set (CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "default install path" FORCE )
   endif()
 
-  option(MPITYPE "TYPE of MPI for esmf--intelmpi, mvapich2, mpich2, openmpi, mpi(cray)" intelmpi)
   option(BUILD_HDF5 "Build HDF5" OFF)
   option(BUILD_NETCDF "Build NETCDF" OFF)
   option(BUILD_JASPER "Build JASPER" OFF)
@@ -90,7 +89,7 @@ endif ((NOT DEFINED OPENMP) OR OPENMP)
   #if not found, build it
     set(BUILD_ESMF "ON")
     if(NOT DEFINED MPITYPE)
-      set(MPITYPE CACHE STRING intelmpi "TYPE of MPI for esmf--intelmpi, mvapich2, mpich2, openmpi, mpi(cray)")
+      set(MPITYPE intelmpi CACHE STRING "TYPE of MPI for esmf--intelmpi, mvapich2, mpich2, openmpi, mpi(cray)")
       message("Attempting to build ESMF with ESMF_COMM=intelmpi, use -DMPITYPE=ESMF_COMM to select an alternative")
     endif()
     set(ESMF_LIB ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_SHARED_LIBRARY_PREFIX}esmf_fullylinked${CMAKE_SHARED_LIBRARY_SUFFIX})
@@ -119,6 +118,7 @@ endif ((NOT DEFINED OPENMP) OR OPENMP)
     message(STATUS "  ESMF_INC: ${ESMF_INC}")
     add_custom_target(esmf env)
   endif()
+  find_package(LibXml2)
 #Look for jasper in environment
   if(NOT DEFINED ENV{JASPER})
   #if not found, build it
@@ -181,6 +181,15 @@ endif ((NOT DEFINED OPENMP) OR OPENMP)
   link_directories(${MPI_Fortran_LIBRARIES} ${ARCHIVE_OUTPUT_PATH} )
 
   include(ExternalProject)
+      if(NOT LIBXML2_FOUND)
+         ExternalProject_Add(
+           libxml2
+           SOURCE_DIR ${PROJECT_SOURCE_DIR}/libxml2
+           CONFIGURE_COMMAND ${PROJECT_SOURCE_DIR}/libxml2/autogen.sh --prefix=${CMAKE_INSTALL_PREFIX} --without-python
+           PREFIX ${CMAKE_INSTALL_PREFIX}
+           BUILD_COMMAND make install
+         )
+      endif()
       ExternalProject_Add(zlib
       PREFIX ${PROJECT_BINARY_DIR}/zlib
       CMAKE_ARGS

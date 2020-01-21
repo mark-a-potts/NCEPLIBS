@@ -86,3 +86,6 @@
 [submodule "esmf"]
 	path = esmf
 	url = https://git.code.sf.net/p/esmf/esmf
+[submodule "libxml2"]
+	path = libxml2
+	url = https://github.com/NOAA-EMC/libxml2.git
