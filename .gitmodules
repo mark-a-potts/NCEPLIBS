@@ -64,7 +64,7 @@
 	branch = ufs_release_v1.0
 [submodule "cmake"]
 	path = cmake
-	url = https://github.com/NOAA-EMC/CMakeModules
+	url = https://github.com/mark-a-potts/CMakeModules
 	branch = ufs_release_v1.0
 [submodule "NCEPLIBS-crtm"]
 	path = NCEPLIBS-crtm
