@@ -4,7 +4,7 @@
 	branch = release/public-v1
 [submodule "NCEPLIBS-bufr"]
 	path = NCEPLIBS-bufr
-	url = https://github.com/NOAA-EMC/NCEPLIBS-bufr
+	url = https://github.com/mark-a-potts/NCEPLIBS-bufr
 	branch = release/public-v1
 [submodule "NCEPLIBS-g2"]
 	path = NCEPLIBS-g2
