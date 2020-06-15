@@ -55,6 +55,9 @@ if((APPLE) AND (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel"))
 endif()
 
 # By default turn off OpenMP support
+option(BUILD_FOR_GSI "Build only subset needed for GSI" OFF)
+
+# By default turn off OpenMP support
 option(OPENMP "use OpenMP threading" OFF)
 
 # Indicate to cmake what the default link type is STATIC
@@ -107,25 +110,26 @@ endif()
 add_subdirectory(NCEPLIBS-crtm)
 
 add_subdirectory(NCEPLIBS-bacio)
-add_subdirectory(NCEPLIBS-ip)
-add_subdirectory(NCEPLIBS-g2)
 add_subdirectory(NCEPLIBS-sigio)
 add_subdirectory(NCEPLIBS-sp)
 add_subdirectory(NCEPLIBS-nemsio)
-add_subdirectory(NCEPLIBS-w3nco)
 add_subdirectory(NCEPLIBS-bufr)
-add_subdirectory(NCEPLIBS-g2tmpl)
-add_subdirectory(NCEPLIBS-gfsio)
-add_subdirectory(NCEPLIBS-landsfcutil)
-add_subdirectory(NCEPLIBS-sfcio)
+add_subdirectory(NCEPLIBS-ip)
 add_subdirectory(NCEPLIBS-w3emc)
-add_subdirectory(NCEPLIBS-nemsiogfs)
+add_subdirectory(NCEPLIBS-w3nco)
+add_subdirectory(NCEPLIBS-sfcio)
+if(NOT ${BUILD_FOR_GSI})
+  add_subdirectory(NCEPLIBS-g2)
+  add_subdirectory(NCEPLIBS-g2tmpl)
+  add_subdirectory(NCEPLIBS-gfsio)
+  add_subdirectory(NCEPLIBS-landsfcutil)
+  add_subdirectory(NCEPLIBS-nemsiogfs)
 
-add_subdirectory(NCEPLIBS-grib_util)
-add_subdirectory(NCEPLIBS-prod_util)
-add_subdirectory(UFS_UTILS)
-add_subdirectory(NCEPLIBS-post)
-
+  add_subdirectory(NCEPLIBS-grib_util)
+  add_subdirectory(NCEPLIBS-prod_util)
+  add_subdirectory(UFS_UTILS)
+  add_subdirectory(NCEPLIBS-post)
+endif()
 # Get version from sub-directories
 file(STRINGS "NCEPLIBS-bacio/VERSION" bacioVersion)
 file(STRINGS "NCEPLIBS-nemsio/VERSION" nemsioVersion)
