@@ -87,7 +87,7 @@ endfunction()
 
 # Collect list of components to append to CMAKE_PREFIX_PATH
 list(APPEND _comps
-  bacio sigio sfcio gfsio ip sp w3nco g2 g2tmpl nemsio nemsiogfs landsfcutil w3emc)
+  bufr bacio sigio sfcio gfsio ip sp w3nco g2 g2tmpl nemsio nemsiogfs landsfcutil w3emc)
 if(BUILD_CRTM)
   list(APPEND _comps crtm)
 endif()
@@ -102,11 +102,26 @@ endforeach()
 # Create CMAKE_PREFIX_PATH list with an alternate separator
 string(REPLACE ";" "|" CMAKE_PREFIX_PATH_ALT_SEP "${_cpath}")
 
+getTagVer("${LIBCOMPS_FILE}" "bufr" tag ver)
+if(SINGLE_DIR_INSTALL) 
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/bufr/bufr-${ver})
+endif()
+ExternalProject_Add(bufr
+  GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-bufr"
+  GIT_TAG        "${tag}"
+  PREFIX         "${CMAKE_BINARY_DIR}/bufr"
+  LIST_SEPARATOR |
+  CMAKE_ARGS     "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH_ALT_SEP}"
+                 "-DCMAKE_INSTALL_PREFIX=${INSTALLDIR}"
+                 "-DENABLE_TESTS=${ENABLE_TESTS}"
+  )
 getTagVer("${LIBCOMPS_FILE}" "bacio" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/bacio/bacio-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/bacio/bacio-${ver})
 endif()
 ExternalProject_Add(bacio
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-bacio"
@@ -120,9 +135,9 @@ ExternalProject_Add(bacio
 
 getTagVer("${LIBCOMPS_FILE}" "sigio" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/sigio/sigio-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/sigio/sigio-${ver})
 endif()
 ExternalProject_Add(sigio
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-sigio"
@@ -136,9 +151,9 @@ ExternalProject_Add(sigio
 
 getTagVer("${LIBCOMPS_FILE}" "sfcio" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/sfcio/sfcio-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/sfcio/sfcio-${ver})
 endif()
 ExternalProject_Add(sfcio
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-sfcio"
@@ -153,9 +168,9 @@ ExternalProject_Add(sfcio
 
 getTagVer("${LIBCOMPS_FILE}" "gfsio" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/gfsio/gfsio-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/gfsio/gfsio-${ver})
 endif()
 ExternalProject_Add(gfsio
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-gfsio"
@@ -170,9 +185,9 @@ ExternalProject_Add(gfsio
 
 getTagVer("${LIBCOMPS_FILE}" "ip" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/ip/ip-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/ip/ip-${ver})
 endif()
 ExternalProject_Add(ip
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-ip"
@@ -188,9 +203,9 @@ ExternalProject_Add(ip
 
 getTagVer("${LIBCOMPS_FILE}" "sp" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/sp/sp-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/sp/sp-${ver})
 endif()
 ExternalProject_Add(sp
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-sp"
@@ -206,9 +221,9 @@ ExternalProject_Add(sp
 
 getTagVer("${LIBCOMPS_FILE}" "w3nco" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/w3nco/w3nco-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/w3nco/w3nco-${ver})
 endif()
 ExternalProject_Add(w3nco
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-w3nco"
@@ -223,9 +238,9 @@ ExternalProject_Add(w3nco
 
 getTagVer("${LIBCOMPS_FILE}" "nemsio" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/nemsio/nemsio-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/nemsio/nemsio-${ver})
 endif()
 ExternalProject_Add(nemsio
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-nemsio"
@@ -241,9 +256,9 @@ ExternalProject_Add(nemsio
 
 getTagVer("${LIBCOMPS_FILE}" "nemsiogfs" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/nemsiogfs/nemsiogfs-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/nemsiogfs/nemsiogfs-${ver})
 endif()
 ExternalProject_Add(nemsiogfs
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-nemsiogfs"
@@ -260,9 +275,9 @@ ExternalProject_Add(nemsiogfs
 
 getTagVer("${LIBCOMPS_FILE}" "landsfcutil" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/landsfcutil/landsfcutil-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/landsfcutil/landsfcutil-${ver})
 endif()
 ExternalProject_Add(landsfcutil
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-landsfcutil"
@@ -278,9 +293,9 @@ ExternalProject_Add(landsfcutil
 
 getTagVer("${LIBCOMPS_FILE}" "g2" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/g2/g2-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/g2/g2-${ver})
 endif()
 ExternalProject_Add(g2
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-g2"
@@ -295,9 +310,9 @@ ExternalProject_Add(g2
 
 getTagVer("${LIBCOMPS_FILE}" "g2tmpl" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/g2tmpl/g2tmpl-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/g2tmpl/g2tmpl-${ver})
 endif()
 ExternalProject_Add(g2tmpl
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-g2tmpl"
@@ -312,9 +327,9 @@ ExternalProject_Add(g2tmpl
 
 getTagVer("${LIBCOMPS_FILE}" "w3emc" tag ver)
 if(SINGLE_DIR_INSTALL) 
-   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/w3emc/w3emc-${ver})
-else()
    set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+else()
+   set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/w3emc/w3emc-${ver})
 endif()
 ExternalProject_Add(w3emc
   GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-w3emc"
@@ -331,9 +346,9 @@ ExternalProject_Add(w3emc
 if(BUILD_CRTM)
   getTagVer("${LIBCOMPS_FILE}" "crtm" tag ver)
   if(SINGLE_DIR_INSTALL) 
-     set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/crtm/crtm-${ver})
-  else()
      set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+  else()
+     set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/crtm/crtm-${ver})
   endif()
   ExternalProject_Add(crtm
     GIT_REPOSITORY "https://github.com/noaa-emc/emc_crtm"
@@ -349,9 +364,9 @@ endif()
 if(BUILD_POST)
   getTagVer("${LIBCOMPS_FILE}" "nceppost" tag ver)
   if(SINGLE_DIR_INSTALL) 
-     set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/nceppost/nceppost-${ver})
-  else()
      set(INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+  else()
+     set(INSTALLDIR ${CMAKE_INSTALL_PREFIX}/nceppost/nceppost-${ver})
   endif()
   ExternalProject_Add(nceppost
     GIT_REPOSITORY "https://github.com/aerorahul/emc_post"

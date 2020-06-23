@@ -1,19 +1,20 @@
 --------------------------------------------------------
 COMPONENT   | BRANCH / TAG       | VERSION
 --------------------------------------------------------
-bacio       | develop            | develop
-sigio       | develop            | develop
-sfcio       | develop            | develop
-gfsio       | develop            | develop
-nemsio      | develop            | develop
-nemsiogfs   | develop            | develop
-w3emc       | develop            | develop
-w3nco       | develop            | develop
-ip          | develop            | develop
-sp          | develop            | develop
-landsfcutil | develop            | develop
-g2          | develop            | develop
-g2tmpl      | develop            | develop
-crtm        | develop            | develop
+bufr        | release/public-v1  | release/public-v1
+bacio       | release/public-v1            | release/public-v1
+sigio       | release/public-v1            | release/public-v1
+sfcio       | release/public-v1            | release/public-v1
+gfsio       | release/public-v1            | release/public-v1
+nemsio      | release/public-v1            | release/public-v1
+nemsiogfs   | release/public-v1            | release/public-v1
+w3emc       | release/public-v1            | release/public-v1
+w3nco       | release/public-v1            | release/public-v1
+ip          | release/public-v1            | release/public-v1
+sp          | release/public-v1            | release/public-v1
+landsfcutil | release/public-v1            | release/public-v1
+g2          | release/public-v1            | release/public-v1
+g2tmpl      | release/public-v1            | release/public-v1
+crtm        | release/public-v1            | release/public-v1
 nceppost    | feature/cmake      | feature/cmake
 --------------------------------------------------------
