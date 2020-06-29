@@ -1,6 +1,7 @@
 --------------------------------------------------------
 COMPONENT   | BRANCH / TAG       | VERSION
 --------------------------------------------------------
+bufr        | gsi-update         | gsi-update
 bacio       | develop            | develop
 sigio       | develop            | develop
 sfcio       | develop            | develop

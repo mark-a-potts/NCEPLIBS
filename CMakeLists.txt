@@ -97,7 +97,7 @@ endfunction()
 
 # Collect list of components to append to CMAKE_PREFIX_PATH
 list(APPEND _comps
-  bacio sigio sfcio gfsio ip sp w3nco g2 g2tmpl nemsio nemsiogfs landsfcutil w3emc)
+  bufr bacio sigio sfcio gfsio ip sp w3nco g2 g2tmpl nemsio nemsiogfs landsfcutil w3emc)
 set(nceplibs ${_comps})
 
 if(BUILD_CRTM)
@@ -124,6 +124,7 @@ foreach(lib ${nceplibs})
   getTagVer("${LIBCOMPS_FILE}" "${lib}" tag ver)
   getInstallDir(${FLAT} ${lib} ${ver} installDir)
 
+  if(NOT ${lib} MATCHES "bufr")
   ExternalProject_Add(${lib}
     GIT_REPOSITORY "https://github.com/noaa-emc/nceplibs-${lib}"
     GIT_TAG        "${tag}"
@@ -134,6 +135,18 @@ foreach(lib ${nceplibs})
                    "-DENABLE_TESTS=${ENABLE_TESTS}"
     DEPENDS        ${${lib}_depends}
     )
+  else()
+  ExternalProject_Add(${lib}
+    GIT_REPOSITORY "https://github.com/mark-a-potts/nceplibs-${lib}"
+    GIT_TAG        "${tag}"
+    PREFIX         "${CMAKE_BINARY_DIR}/${lib}"
+    LIST_SEPARATOR |
+    CMAKE_ARGS     "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH_ALT_SEP}"
+                   "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/${installDir}"
+                   "-DENABLE_TESTS=${ENABLE_TESTS}"
+    DEPENDS        ${${lib}_depends}
+    )
+   endif() 
 endforeach()
 
 
