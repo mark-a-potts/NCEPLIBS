@@ -98,20 +98,25 @@ endfunction()
 
 # Collect list of components to append to CMAKE_PREFIX_PATH
 list(APPEND _comps
-  bacio sigio sfcio gfsio ip sp w3nco g2 g2tmpl nemsio nemsiogfs landsfcutil w3emc wrf_io bufr ip2 wgrib2)
-set(nceplibs ${_comps})
+  bacio sigio sfcio gfsio ip g2 g2tmpl nemsio nemsiogfs landsfcutil w3emc wrf_io bufr ip2 wgrib2)
+list(APPEND _comps_mine
+  sp w3nco )
+set(nceplibs ${_comps} ${_comps_mine})
 
 if(BUILD_CRTM)
-  list(APPEND _comps crtm)
+  list(APPEND nceplibs crtm)
 endif()
 if(BUILD_POST)
-  list(APPEND _comps nceppost)
+  list(APPEND nceplibs nceppost)
 endif()
 
 list(APPEND _cpath "${CMAKE_PREFIX_PATH}")
 list(APPEND _cpath "${CMAKE_INSTALL_PREFIX}")
 foreach(_comp ${_comps})
   list(APPEND _cpath "${CMAKE_INSTALL_PREFIX}/${_comp}")
+endforeach()
+foreach(_comp ${_comps_mine})
+  list(APPEND _cpath "${CMAKE_INSTALL_PREFIX}/${_comp_mine}")
 endforeach()
 
 # Create CMAKE_PREFIX_PATH list with an alternate separator
@@ -123,7 +128,27 @@ set(w3emc_depends nemsio sigio)
 set(ip2_depends sp)
 set(wgrib2_depends ip2 sp)
 
-foreach(lib ${nceplibs})
+foreach(lib ${_comps_mine})
+  message("adding lib ${lib}")
+  getTagVer("${LIBCOMPS_FILE}" "${lib}" tag ver)
+  getInstallDir(${FLAT} ${lib} ${ver} installDir)
+
+  ExternalProject_Add(${lib}
+    GIT_REPOSITORY "https://github.com/mark-a-potts/nceplibs-${lib}"
+    GIT_TAG        "${tag}"
+    PREFIX         "${CMAKE_BINARY_DIR}/${lib}"
+    LIST_SEPARATOR |
+    CMAKE_ARGS     "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH_ALT_SEP}"
+                   "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/${installDir}"
+                   "-DENABLE_TESTS=${ENABLE_TESTS}"
+                   "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}"
+                   "-DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}"
+                   "-DOPENMP=${OPENMP}"
+    DEPENDS        ${${lib}_depends}
+    )
+endforeach()
+foreach(lib ${_comps})
+  message("adding lib ${lib}")
   getTagVer("${LIBCOMPS_FILE}" "${lib}" tag ver)
   getInstallDir(${FLAT} ${lib} ${ver} installDir)
 
