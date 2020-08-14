@@ -98,9 +98,9 @@ endfunction()
 
 # Collect list of components to append to CMAKE_PREFIX_PATH
 list(APPEND _comps
-  bacio sigio sfcio gfsio ip g2 g2tmpl nemsiogfs landsfcutil w3emc wrf_io bufr ip2 wgrib2)
+  sfcio gfsio ip g2 g2tmpl nemsiogfs landsfcutil wrf_io bufr ip2 wgrib2)
 list(APPEND _comps_mine
-  sp w3nco nemsio )
+  bacio sigio sp w3nco nemsio w3emc)
 set(nceplibs ${_comps} ${_comps_mine})
 
 if(BUILD_CRTM)
